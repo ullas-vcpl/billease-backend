@@ -1,0 +1,39 @@
+// signup controller
+const users = require("../models/users.js");
+const bcrypt = require("bcrypt");
+const dotenv = require('dotenv');
+dotenv.config();
+const mongoose = require("mongoose");
+
+const signUpController = (req, res) => {
+    const { name, firmname, email, password } = req.body;
+    // Check if user already exists
+    users.findOne({ email: email }).then(async (user) => {
+        if (user) {
+            return res.status(400).json({ message: "User already exists" });
+        } else {
+            // Create new user
+            //bcrypt password
+            const salt = bcrypt.genSaltSync(10);
+            const hashedPassword = bcrypt.hashSync(password, salt);
+            const newUser = new users({
+                name,
+                firmname,
+                email,
+                password: hashedPassword,
+            });
+            // connect to DB
+            const DBNAME = admin
+            await mongoose.connect(process.env.DBURL, {
+                dbName: DBNAME
+            })
+            newUser.save().then((savedUser) => {
+                res.status(201).json({ message: "User created successfully", user: savedUser });
+            }).catch((err) => {
+                res.status(500).json({ error: err.message });   
+            });
+        }
+    });
+};
+
+module.exports = signUpController;
