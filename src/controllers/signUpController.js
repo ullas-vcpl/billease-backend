@@ -5,7 +5,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 const mongoose = require("mongoose");
 
-const signUpController = (req, res) => {
+const signUpController = async (req, res) => {
+    const DBNAME = "ullas";
+    //connect to DB
+    await mongoose.connect(process.env.DBURL, {
+  dbName: DBNAME
+});
     const { name, firmname, email, password } = req.body;
     // Check if user already exists
     users.findOne({ email: email }).then(async (user) => {
@@ -23,17 +28,16 @@ const signUpController = (req, res) => {
                 password: hashedPassword,
             });
             // connect to DB
-            const DBNAME = admin
-            await mongoose.connect(process.env.DBURL, {
-                dbName: DBNAME
-            })
-            newUser.save().then((savedUser) => {
+  
+            await newUser.save().then((savedUser) => {
+                mongoose.connection.close();
                 res.status(201).json({ message: "User created successfully", user: savedUser });
             }).catch((err) => {
-                res.status(500).json({ error: err.message });   
+                res.status(500).json({ error: err.message });
             });
         }
     });
+    
 };
 
 module.exports = signUpController;
