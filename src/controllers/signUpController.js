@@ -6,12 +6,12 @@ dotenv.config();
 const mongoose = require("mongoose");
 
 const signUpController = async (req, res) => {
-    const DBNAME = "ullas";
+    const DBNAME = "Admin_DB";
     //connect to DB
     await mongoose.connect(process.env.DBURL, {
   dbName: DBNAME
-});
-    const { name, firmname, email, password } = req.body;
+            });
+     const { name, firmname, email, password, isAdmin } = req.body;
     // Check if user already exists
     users.findOne({ email: email }).then(async (user) => {
         if (user) {
@@ -26,6 +26,7 @@ const signUpController = async (req, res) => {
                 firmname,
                 email,
                 password: hashedPassword,
+                isAdmin
             });
             // connect to DB
   

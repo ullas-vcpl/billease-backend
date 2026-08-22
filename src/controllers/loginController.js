@@ -8,7 +8,7 @@ dotenv.config();
 
 const loginController = async (req, res) => {
     await mongoose.connection.close();
-    const DBNAME = "ullas";
+    const DBNAME = "Admin_DB";
     //connect to DB
     await mongoose.connect(process.env.DBURL, {
   dbName: DBNAME
@@ -31,16 +31,12 @@ else {
         await mongoose.connection.close();
          
          const NDBNAME = email.split("@")[0];
+         //remove special characters from the database name
+         const cleanNDBNAME = NDBNAME.replace(/[^a-zA-Z0-9]/g, "");
          await mongoose.connect(process.env.DBURL, {
-           dbName: NDBNAME
+           dbName: cleanNDBNAME
          });
-        //  const newUser = new users({
-        //     name: "random",
-        //     firmname: "random",
-        //     email: "random@example.com",
-        //     password: "randompassword",
-        // });
-        // await newUser.save()
+
         // console.log("User saved to new database");
         //generate access token and send it to the user in cookies
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
