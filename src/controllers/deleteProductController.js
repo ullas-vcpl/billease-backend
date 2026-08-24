@@ -5,6 +5,7 @@ const products = require('../models/products.js');
 const deleteProductController = async (req, res) => {
     const { id } = req.params;
     try {
+        console.log(id);
         const deletedProduct = await products.findByIdAndDelete(id);
         res.json(deletedProduct);
     } catch (error) {
