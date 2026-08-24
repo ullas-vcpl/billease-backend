@@ -6,11 +6,6 @@ dotenv.config();
 const mongoose = require("mongoose");
 
 const signUpController = async (req, res) => {
-    const DBNAME = "Admin_DB";
-    //connect to DB
-    await mongoose.connect(process.env.DBURL, {
-  dbName: DBNAME
-            });
      const { name, firmname, email, password, isAdmin } = req.body;
     // Check if user already exists
     users.findOne({ email: email }).then(async (user) => {
@@ -31,7 +26,6 @@ const signUpController = async (req, res) => {
             // connect to DB
   
             await newUser.save().then((savedUser) => {
-                mongoose.connection.close();
                 res.status(201).json({ message: "User created successfully", user: savedUser });
             }).catch((err) => {
                 res.status(500).json({ error: err.message });

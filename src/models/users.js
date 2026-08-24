@@ -26,5 +26,6 @@ const userSchema = new mongoose.Schema({
   }
 
 });
-
-module.exports = mongoose.model("User", userSchema);
+const db=mongoose.connection.useDb("Admin_DB",{useCache:true});
+const users = db.models.user || db.model("User", userSchema);
+module.exports = users;
