@@ -13,6 +13,10 @@ const getproducts = require('../controllers/getProductsController.js');
 const addProduct = require('../controllers/addProductController.js');
 const updateProduct = require('../controllers/updateProductController.js');
 const deleteProduct = require('../controllers/deleteProductController.js');
+const addCustomer = require('../controllers/addCustomerController.js');
+const deleteCustomer = require('../controllers/deleteCustomerController.js');
+const getCustomers = require('../controllers/getCustomersController.js');
+const updateCustomer = require('../controllers/updateCustomerController.js');
 // routes
 router.get('/check', check);
 router.post('/signup', authorization, protect, signUp);
@@ -23,4 +27,9 @@ router.get('/getProducts', authorization, getproducts);
 router.post('/addProduct', authorization, addProduct);
 router.put('/update/:id', authorization, updateProduct);
 router.delete('/delete/:id', authorization, deleteProduct);
+router.post('/addCustomer', authorization, addCustomer);
+router.put('/updateCustomer/:id', authorization, updateCustomer);
+router.get('/getCustomers', authorization, getCustomers);
+
+
 module.exports = router;

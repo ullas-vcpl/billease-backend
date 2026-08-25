@@ -1,10 +1,11 @@
 //update product controller
-const products = require('../models/products.js');
+const getproductmodel = require('../models/getproductmodel.js');
+const users = require('../models/users.js');
 
 const updateProductController = async (req, res) => {
     const { id } = req.params;
     const { name, price, description, productcode, discount } = req.body;
-    updates = {};
+    const updates = {};
     if(name!==undefined) updates.name = name;
     if(price!==undefined) updates.price = price;
     if(description!==undefined) updates.description = description;
@@ -14,6 +15,10 @@ const updateProductController = async (req, res) => {
     console.log(req.body);
     console.log(id);
     try {
+        const email = (await users.findById(req.user.id)).email;
+        const dbname = email.split('@')[0];
+        const cleanedDbname = dbname.replace(/[^a-zA-Z0-9]/g, '');
+        const products = await getproductmodel(cleanedDbname);
         const updatedProduct = await products.findByIdAndUpdate(id, { $set: updates }, { new: true, runValidators: false });
         res.json(updatedProduct);
     } catch (error) {
