@@ -1,4 +1,4 @@
-const user = require('../models/userModel');
+const user = require('../models/users.js');
 const getCustomerModel = require('../models/getcustomermodel.js');
 
 const updateCustomerController = async (req, res) => {
