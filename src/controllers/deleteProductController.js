@@ -1,11 +1,17 @@
 //delete product
 
-const products = require('../models/products.js');
+const getproductmodel = require('../models/getproductmodel');
+const user = require('../models/users.js');
 
 const deleteProductController = async (req, res) => {
     const { id } = req.params;
     try {
         console.log(id);
+        const email = (await user.findById(req.user.id)).email;
+        console.log(email);
+        const dbname = email.split('@')[0];
+        const cleanedDbname = dbname.replace(/[^a-zA-Z0-9]/g, '');
+        const products = await getproductmodel(cleanedDbname);
         const deletedProduct = await products.findByIdAndDelete(id);
         res.json(deletedProduct);
     } catch (error) {

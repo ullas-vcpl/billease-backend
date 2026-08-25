@@ -10,6 +10,7 @@ const addProductController = async (req, res) => {
         databasename = user.email.split("@")[0];
         //remove special characters from the database name
         const cleanDatabasename = databasename.replace(/[^a-zA-Z0-9]/g, "");
+        console.log(cleanDatabasename);
         const products = await getproductmodel(cleanDatabasename);
         const { name, price, description, productcode, discount } = req.body;
         const newProduct = new products({ name, price, description, productcode, discount });
