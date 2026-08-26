@@ -14,6 +14,10 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
+  },
+  TotalPurchase: {
+    type: Number,
+    default: 0
   }
 });
 

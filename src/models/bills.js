@@ -18,7 +18,8 @@ const billSchema = new mongoose.Schema({
             min: 1
         }
         }
-      ]
+      ],
+      required: true
     
     },
     customer:{
@@ -28,8 +29,8 @@ const billSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
-    }
+    },
     
-});
+},{timestamps: true});
 
 module.exports = billSchema;
