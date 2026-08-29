@@ -1,6 +1,6 @@
 //update product controller
-const getproductmodel = require('../models/getproductmodel.js');
-const users = require('../models/users.js');
+const getproductmodel = require('../../models/getproductmodel.js');
+const users = require('../../models/users.js');
 
 const updateProductController = async (req, res) => {
     const { id } = req.params;

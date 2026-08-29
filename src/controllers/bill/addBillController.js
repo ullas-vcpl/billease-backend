@@ -1,5 +1,5 @@
-const getBillModel = require('../models/getbillmodel.js');
-const user = require('../models/users.js');
+const getBillModel = require('../../models/getbillmodel.js');
+const user = require('../../models/users.js');
 
 const addBillController = async (req, res) => {
     const {amount, description, customer, date} = req.body;

@@ -1,5 +1,5 @@
-const user = require('../models/users.js');
-const getCustomerModel = require('../models/getcustomermodel.js');
+const user = require('../../models/users.js');
+const getCustomerModel = require('../../models/getcustomermodel.js');
 
 const getCustomersController = async (req, res) => {
     try {

@@ -1,6 +1,6 @@
-const getCustomerModel = require('../models/getcustomermodel.js');
-const user = require('../models/users.js');
-
+const getCustomerModel = require('../../models/getcustomermodel.js');
+const user = require('../../models/users.js');
+    
 const deleteCustomerController = async (req, res) => {
     try {
         const useremail = (await user.findById(req.user.id)).email;

@@ -1,7 +1,7 @@
 //delete product
 
-const getproductmodel = require('../models/getproductmodel');
-const user = require('../models/users.js');
+const getproductmodel = require('../../models/getproductmodel.js');
+const user = require('../../models/users.js');
 
 const deleteProductController = async (req, res) => {
     const { id } = req.params;

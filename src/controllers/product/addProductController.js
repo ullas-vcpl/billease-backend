@@ -1,6 +1,6 @@
 //add product 
-const getproductmodel = require('../models/getproductmodel.js');
-const users = require('../models/users.js');
+const getproductmodel = require('../../models/getproductmodel.js');
+const users = require('../../models/users.js');
 const addProductController = async (req, res) => {
     try { 
         console.log(req.user.id);

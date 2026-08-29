@@ -28,7 +28,8 @@ const billSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        expires: 30*7*24*60*60 // example: expires in 7 days (in seconds)
     },
     
 },{timestamps: true});

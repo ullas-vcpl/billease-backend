@@ -4,21 +4,24 @@ const router = express.Router();
 const dummy = require('../controllers/dummyController.js');
 
 
+
 const check = require('../controllers/checkController.js');
 const signUp = require('../controllers/signUpController.js');
 const login = require('../controllers/loginController.js');
 const authorization = require('../middlewares/authorization.js');
 const logout = require('../controllers/logoutController.js');
 const protect = require('../middlewares/protect.js');
-const getproducts = require('../controllers/getProductsController.js');
-const addProduct = require('../controllers/addProductController.js');
-const updateProduct = require('../controllers/updateProductController.js');
-const deleteProduct = require('../controllers/deleteProductController.js');
-const addCustomer = require('../controllers/addCustomerController.js');
-const deleteCustomer = require('../controllers/deleteCustomerController.js');
-const getCustomers = require('../controllers/getCustomersController.js');
-const updateCustomer = require('../controllers/updateCustomerController.js');
-const addBill = require('../controllers/addBillController.js');
+const getproducts = require('../controllers/product/getProductsController.js');
+const addProduct = require('../controllers/product/addProductController.js');
+const updateProduct = require('../controllers/product/updateProductController.js');
+const deleteProduct = require('../controllers/product/deleteProductController.js');
+const addCustomer = require('../controllers/customer/addCustomerController.js');
+const deleteCustomer = require('../controllers/customer/deleteCustomerController.js');
+const getCustomers = require('../controllers/customer/getCustomersController.js');
+const updateCustomer = require('../controllers/customer/updateCustomerController.js');
+const getBillById = require('../controllers/bill/getBillByIdController.js');
+const addBill = require('../controllers/bill/addBillController.js');
+const getBills = require('../controllers/bill/getBillsController.js');
 // routes
 router.get('/check', check);
 router.post('/signup', authorization, protect, signUp);
@@ -33,6 +36,8 @@ router.post('/addCustomer', authorization, addCustomer);
 router.put('/updateCustomer/:id', authorization, updateCustomer);
 router.get('/getCustomers', authorization, getCustomers);
 router.post('/addBill', authorization, addBill);
+router.get('/getBillById/:id', authorization, getBillById);
+router.get('/getBills', authorization, getBills);
 
 
 module.exports = router;
