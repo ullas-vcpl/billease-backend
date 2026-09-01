@@ -22,6 +22,9 @@ const updateCustomer = require('../controllers/customer/updateCustomerController
 const getBillById = require('../controllers/bill/getBillByIdController.js');
 const addBill = require('../controllers/bill/addBillController.js');
 const getBills = require('../controllers/bill/getBillsController.js');
+
+//dashboard routes
+const { getDashboardSummary, getSalesOverview, getRecentBills } = require('../controllers/dashboard/dashboaedController.js');
 // routes
 router.get('/check', check);
 router.post('/signup', authorization, protect, signUp);
@@ -38,6 +41,9 @@ router.get('/getCustomers', authorization, getCustomers);
 router.post('/addBill', authorization, addBill);
 router.get('/getBillById/:id', authorization, getBillById);
 router.get('/getBills', authorization, getBills);
+router.get('/dashboard/summary', authorization, getDashboardSummary);
+router.get('/dashboard/sales-overview', authorization, getSalesOverview);
+router.get('/dashboard/recent-bills', authorization, getRecentBills);
 
 
 module.exports = router;

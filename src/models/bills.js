@@ -26,12 +26,12 @@ const billSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer'
     },
-    date: {
+    createdAt: {
         type: Date,
         default: Date.now,
         expires: 30*7*24*60*60 // example: expires in 7 days (in seconds)
     },
     
-},{timestamps: true});
+},);
 
 module.exports = billSchema;
