@@ -24,7 +24,9 @@ const addBill = require('../controllers/bill/addBillController.js');
 const getBills = require('../controllers/bill/getBillsController.js');
 
 //dashboard routes
-const { getDashboardSummary, getSalesOverview, getRecentBills } = require('../controllers/dashboard/dashboaedController.js');
+const getDashboardSummary = require('../controllers/dashboard/dashboardsummarycontroller.js');
+const getSalesOverview = require('../controllers/dashboard/salesoverviewcontroller.js');
+const getRecentBills = require('../controllers/dashboard/recentbillscontroller.js');
 // routes
 router.get('/check', check);
 router.post('/signup', authorization, protect, signUp);

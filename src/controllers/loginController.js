@@ -34,7 +34,7 @@ else {
         
         //generate access token and send it to the user in cookies
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.cookie("token", token, { httpOnly: true, secure: false, sameSite: 'none', path: '/' });
+        res.cookie("token", token, { httpOnly: true, secure: true, sameSite: 'none', path: '/' });
         res.status(200).json({ message: `User logged in successfully database: ${cleanNDBNAME}` , user: user });
 
 }
