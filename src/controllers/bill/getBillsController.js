@@ -1,13 +1,9 @@
 const users = require('../../models/users.js');
 const getbillmodel = require('../../models/getbillmodel.js');
 
-const user = await users.findOne({ _id: req.user.id });
-const databasename = user.email.split("@")[0];
-const cleanDatabasename = databasename.replace(/[^a-zA-Z0-9]/g, "");
-const Bill = await getbillmodel(cleanDatabasename);
 
 
-const getBills = async (req, res) => {
+const getBillsController = async (req, res) => {
     
     const user = await users.findOne({ _id: req.user.id });
     const databasename = user.email.split("@")[0];
