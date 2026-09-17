@@ -1,18 +1,32 @@
 const user = require("../../models/users.js");
-const getbillmodel = require("../../models/getbillmodel.js");
-
+const getBillModel = require("../../models/getbillmodel.js");
 
 const getSalesOverview = async (req, res) => {
-    const email = (await user.findById(req.user.id)).email;
-    const Dbname = email.split("@")[0];
-    const cleanDbName = Dbname.replace(/\./g, "");
-    const Bill = await getbillmodel(cleanDbName);
     try {
+        // Find logged-in user
+        const loggedInUser = await user.findById(req.user.id);
 
-        const days =
-            parseInt(req.query.days) || 7;
+        if (!loggedInUser) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
 
-        // Start date
+        // Get user's database name
+        const email = loggedInUser.email;
+
+        const dbName = email.split("@")[0];
+        const cleanDbName = dbName.replace(/[^a-zA-Z0-9]/g, "");
+
+        const Bill = await getBillModel(cleanDbName);
+
+        // Number of days
+        const days = Math.max(
+            1,
+            parseInt(req.query.days, 10) || 7
+        );
+
+        // Today at 00:00:00 in server local time
         const startDate = new Date();
 
         startDate.setHours(0, 0, 0, 0);
@@ -21,9 +35,8 @@ const getSalesOverview = async (req, res) => {
             startDate.getDate() - (days - 1)
         );
 
-        // Get sales from MongoDB
+        // Aggregate sales
         const sales = await Bill.aggregate([
-
             {
                 $match: {
                     createdAt: {
@@ -34,18 +47,17 @@ const getSalesOverview = async (req, res) => {
 
             {
                 $group: {
-
                     _id: {
                         $dateToString: {
                             format: "%Y-%m-%d",
-                            date: "$createdAt"
+                            date: "$createdAt",
+                            timezone: "Asia/Kolkata"
                         }
                     },
 
                     sales: {
                         $sum: "$amount"
                     }
-
                 }
             },
 
@@ -54,34 +66,41 @@ const getSalesOverview = async (req, res) => {
                     _id: 1
                 }
             }
-
         ]);
 
+        // Convert aggregation result into Map
+        const salesMap = new Map(
+            sales.map(item => [
+                item._id,
+                item.sales
+            ])
+        );
 
-        // Create result for every day
+        // Create an entry for every day
         const result = [];
 
         for (let i = 0; i < days; i++) {
-
             const date = new Date(startDate);
 
             date.setDate(
                 startDate.getDate() + i
             );
 
+            // Create YYYY-MM-DD using local date
+            const year = date.getFullYear();
+
+            const month = String(
+                date.getMonth() + 1
+            ).padStart(2, "0");
+
+            const day = String(
+                date.getDate()
+            ).padStart(2, "0");
+
             const dateString =
-                date.toISOString().split("T")[0];
-
-
-            // Find sales for this date
-            const existingDay =
-                sales.find(
-                    item => item._id === dateString
-                );
-
+                `${year}-${month}-${day}`;
 
             result.push({
-
                 date: date.toLocaleDateString(
                     "en-IN",
                     {
@@ -91,32 +110,23 @@ const getSalesOverview = async (req, res) => {
                 ),
 
                 sales:
-                    existingDay?.sales || 0
-
+                    salesMap.get(dateString) || 0
             });
-
         }
-
 
         res.status(200).json(result);
 
     } catch (error) {
-
         console.error(
             "Sales overview error:",
             error
         );
 
         res.status(500).json({
-
             message: "Error getting sales overview",
-
             error: error.message
-
         });
-
     }
-
 };
 
 module.exports = getSalesOverview;

@@ -3,7 +3,7 @@ const productSchema = require("./products.js");
 
 const getproductmodel = async (databasename) => {
     const db = await getdatabase(databasename);
-    return db.models.product || db.model("Product", productSchema);
+    return db.models.Product || db.model("Product", productSchema);
 }
 
 module.exports = getproductmodel;

@@ -22,6 +22,7 @@ const updateCustomer = require('../controllers/customer/updateCustomerController
 const getBillById = require('../controllers/bill/getBillByIdController.js');
 const addBill = require('../controllers/bill/addBillController.js');
 const getBills = require('../controllers/bill/getBillsController.js');
+const getProductById = require('../controllers/product/getProductByIdController.js');
 
 //dashboard routes
 const getDashboardSummary = require('../controllers/dashboard/dashboardsummarycontroller.js');
@@ -35,6 +36,7 @@ router.post('/dummy',authorization, dummy);
 router.post('/logout', authorization, logout);
 router.get('/getProducts', authorization, getproducts);
 router.post('/addProduct', authorization, addProduct);
+router.get('/getProductById/:id', authorization, getProductById);
 router.put('/update/:id', authorization, updateProduct);
 router.delete('/delete/:id', authorization, deleteProduct);
 router.post('/addCustomer', authorization, addCustomer);
